@@ -14,5 +14,9 @@ def ping():
 @app.get("/musica")
 def musica():
     canciones = os.listdir("C:/_pedroolopz")
-    return {"lista": canciones}
+    cancionesfiltradas = []
+    for cancion in canciones:
+        if cancion.endswith(".mp3"):
+            cancionesfiltradas.append(cancion)
+    return {"lista": cancionesfiltradas}    
             
