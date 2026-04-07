@@ -19,6 +19,10 @@ fetch("http://127.0.0.1:8000/musica")
   .then(data => {
     listaCompleta = data.lista;
     mostrarCanciones(listaCompleta);
+    const unicos = [...new Set(listaCompleta.map(c => c.artista))]
+    unicos.forEach(artista => {
+      document.getElementById("filtroArtista").innerHTML += `<option value="${artista}">${artista}</option>`
+    })
   })
   .catch(error => console.error("Error:", error));
 

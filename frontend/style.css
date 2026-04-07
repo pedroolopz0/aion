@@ -57,6 +57,48 @@ h1{
     margin-bottom: 18px ;
 }
 
+#btnAnterior, #btnSiguiente{
+    border-radius: 20px;
+    color: #AAAAAA;
+    border: 1px solid #AAAAAA;
+    font-size: 20px;
+    background-color: #F6F6F6;
+    cursor: pointer;
+    
+}
+
+#numeroPagina{
+    color: #FFCEE3;
+    font-size: 20px;
+    margin: 0px 10px;
+    background-color: #021A54;
+    padding: 1px 10px;
+    border-radius: 20px;
+}
+
+select, ::picker(select) {
+  appearance: base-select;
+}
+
+::picker(select) {
+  background-color: #021A54;
+  border-radius: 10px;
+  padding: 5px 0px;
+  color: #FFCEE3;
+}
+
+option {
+  color: #FFCEE3;
+}
+
+select{
+    color: #FFCEE3;
+    background-color: #021A54;
+    border-radius: 10px;
+    padding: 10px 22px;
+    cursor: pointer;
+}
+
 /*paleta oscura*/
 
 body.dark {
@@ -75,6 +117,20 @@ body.dark h1{
     color: #FFCEE3;
 } 
 
-body.dark .cancion {
+body.dark .cancion{
+    background-color: #FFCEE3;
+}
+
+body.dark #numeroPagina{
+    color: #021A54;
+    background-color: #FFCEE3;
+}
+
+body.dark #btnAnterior, body.dark #btnSiguiente{
+    background-color: #021A54;
+}
+
+body.dark #filtroArtista{
+    color: #021A54;
     background-color: #FFCEE3;
 }
