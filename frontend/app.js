@@ -1,11 +1,14 @@
 const contenedor = document.getElementById("canciones");
 const btn = document.getElementById("btnDark");
 const porPag = 28;
+const loading = document.getElementById("loading");
 let paginaAct = 0;
 let listaCompleta = [];
+let listaActual = [];
 
 // boton modo de visualizacion
-btn.onclick = function () {
+btn.onclick = function () 
+{
   document.body.classList.toggle("dark");
 
   btn.textContent = document.body.classList.contains("dark")
@@ -16,26 +19,33 @@ btn.onclick = function () {
 // fetch canciones
 fetch("http://127.0.0.1:8000/musica")
   .then(response => response.json())
-  .then(data => {
+  .then(data => 
+  {
+    loading.style.display = "none"
     listaCompleta = data.lista;
-    mostrarCanciones(listaCompleta);
+    listaActual = listaCompleta;
+    mostrarCanciones(listaActual);
     const unicos = [...new Set(listaCompleta.map(c => c.artista))]
-    unicos.forEach(artista => {
+    unicos.forEach(artista => 
+    {
       document.getElementById("filtroArtista").innerHTML += `<option value="${artista}">${artista}</option>`
     })
   })
-  .catch(error => console.error("Error:", error));
+  
+.catch(error => console.error("Error:", error));
 
 document.getElementById("btnSiguiente").onclick = function() {
-    paginaAct++;
-    mostrarCanciones(listaCompleta);
-    document.getElementById("numeroPagina").textContent = paginaAct + 1;
+    if ((paginaAct + 1) * porPag < listaActual.length) {
+        paginaAct++;
+        mostrarCanciones(listaActual);
+        document.getElementById("numeroPagina").textContent = paginaAct + 1;
+    }
 }
 
 document.getElementById("btnAnterior").onclick = function() {
     if (paginaAct > 0) {
         paginaAct--;
-        mostrarCanciones(listaCompleta);
+        mostrarCanciones(listaActual);
         document.getElementById("numeroPagina").textContent = paginaAct + 1;
     }
 }
@@ -53,3 +63,23 @@ function mostrarCanciones(lista){
 
   contenedor.innerHTML = html;
 }
+
+const select = document.getElementById("filtroArtista")
+
+function filtrar(event) {
+  const artistafiltrado = event.target.value;
+  if (artistafiltrado === ""){
+    listaActual = listaCompleta;
+    paginaAct = 0;
+    document.getElementById("numeroPagina").textContent = 1;
+    mostrarCanciones(listaActual);
+  }
+  else{
+    listaActual = listaCompleta.filter(c => c.artista === artistafiltrado);
+    paginaAct = 0;
+    document.getElementById("numeroPagina").textContent = 1;
+    mostrarCanciones(listaActual);
+  }
+}
+
+select.addEventListener("change", filtrar)
