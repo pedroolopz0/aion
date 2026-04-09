@@ -35,18 +35,21 @@ def sincronizar_db():
             resultado = cursor.fetchone()
             if resultado is None:
                 ruta = CARPETA_MUSICA + "/" + cancion
-                tags = ID3(ruta)
-                cursor.execute(
-                    "INSERT INTO canciones VALUES (?, ?, ?, ?, ?, ?)",
-                    (
-                    cancion,
-                    tags.get("TIT2").text[0] if tags.get("TIT2") else "Desconocido",
-                    tags.get("TPE1").text[0] if tags.get("TPE1") else "Desconocido",
-                    tags.get("TALB").text[0] if tags.get("TALB") else "Desconocido",
-                    str(tags.get("TDRC").text[0]) if tags.get("TDRC") else "Desconocido",
-                    MP3(ruta).info.length
+                try:
+                    tags = ID3(ruta)
+                    cursor.execute(
+                        "INSERT INTO canciones VALUES (?, ?, ?, ?, ?, ?)",
+                        (
+                        cancion,
+                        tags.get("TIT2").text[0] if tags.get("TIT2") else "Desconocido",
+                        tags.get("TPE1").text[0] if tags.get("TPE1") else "Desconocido",
+                        tags.get("TALB").text[0] if tags.get("TALB") else "Desconocido",
+                        str(tags.get("TDRC").text[0]) if tags.get("TDRC") else "Desconocido",
+                        MP3(ruta).info.length
+                        )
                     )
-                )
+                except Exception as e:
+                    print(f"Error con {cancion}: {e}")
     conn.commit()
     conn.close()
 
