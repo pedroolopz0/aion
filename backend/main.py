@@ -5,6 +5,8 @@ from mutagen.mp3 import MP3
 from mutagen.id3 import ID3
 import os
 
+CARPETA_MUSICA = "C:/_pedroolopz"
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -13,21 +15,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-def root():
-    return {"mensaje": "Aion funcionando"}
-
-@app.get("/ping")
-def ping():
-    return {"status": "ok"}
-
 @app.get("/musica")
 def musica():
-    canciones = os.listdir("C:/_pedroolopz")
+    canciones = os.listdir(CARPETA_MUSICA)
     cancionesfiltradas = []
     for cancion in canciones:
         if cancion.endswith(".mp3"):
-            ruta = "C:/_pedroolopz/" + cancion
+            ruta = CARPETA_MUSICA + "/" + cancion
             tags = ID3(ruta)
             cancionesfiltradas.append({
                 "artista": tags.get("TPE1").text[0] if tags.get("TPE1") else "Desconocido",

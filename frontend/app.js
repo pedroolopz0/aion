@@ -1,7 +1,8 @@
 const contenedor = document.getElementById("canciones");
 const btn = document.getElementById("btnDark");
-const porPag = 28;
+const numeroPagina = document.getElementById("numeroPagina")
 const loading = document.getElementById("loading");
+const porPag = 28;
 let paginaAct = 0;
 let listaCompleta = [];
 let listaActual = [];
@@ -38,7 +39,7 @@ document.getElementById("btnSiguiente").onclick = function() {
     if ((paginaAct + 1) * porPag < listaActual.length) {
         paginaAct++;
         mostrarCanciones(listaActual);
-        document.getElementById("numeroPagina").textContent = paginaAct + 1;
+        numeroPagina.textContent = paginaAct + 1;
     }
 }
 
@@ -46,7 +47,7 @@ document.getElementById("btnAnterior").onclick = function() {
     if (paginaAct > 0) {
         paginaAct--;
         mostrarCanciones(listaActual);
-        document.getElementById("numeroPagina").textContent = paginaAct + 1;
+        numeroPagina.textContent = paginaAct + 1;
     }
 }
 
@@ -70,16 +71,13 @@ function filtrar(event) {
   const artistafiltrado = event.target.value;
   if (artistafiltrado === ""){
     listaActual = listaCompleta;
-    paginaAct = 0;
-    document.getElementById("numeroPagina").textContent = 1;
-    mostrarCanciones(listaActual);
   }
   else{
-    listaActual = listaCompleta.filter(c => c.artista === artistafiltrado);
-    paginaAct = 0;
-    document.getElementById("numeroPagina").textContent = 1;
-    mostrarCanciones(listaActual);
+    listaActual = listaCompleta.filter(c => c.artista === artistafiltrado); 
   }
+paginaAct = 0;
+numeroPagina.textContent = 1;
+mostrarCanciones(listaActual);
 }
 
 select.addEventListener("change", filtrar)
