@@ -27,9 +27,11 @@ fetch("http://127.0.0.1:8000/musica")
     listaActual = listaCompleta;
     mostrarCanciones(listaActual);
     const unicos = [...new Set(listaCompleta.map(c => c.artista))]
-    unicos.forEach(artista => 
-    {
-      document.getElementById("filtroArtista").innerHTML += `<option value="${artista}">${artista}</option>`
+    unicos.forEach(artista => {
+    const option = document.createElement("option")
+    option.value = artista
+    option.textContent = artista
+    document.getElementById("filtroArtista").appendChild(option)
     })
   })
   
