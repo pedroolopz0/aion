@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 from mutagen.mp3 import MP3
 from mutagen.id3 import ID3
@@ -63,19 +64,35 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/descargar/{archivo}")
+async def descargar_archivo(archivo: str):
+    file_path = os.path.join(CARPETA_MUSICA, archivo)
+
+    if not os.path.exists(file_path) or not os.path.isfile(file_path):
+        raise HTTPException(status_code=404, detail='archivo no encontrado')
+    
+    if not archivo.endswith(".mp3"):
+        raise HTTPException(status_code=400, detail='archivo a descargar no valido')
+    
+    return FileResponse(
+        path=file_path,
+        filename=archivo,
+        media_type='application/octet-stream'
+    )
+
 @app.get("/musica")
 def musica():
-    conn = sqlite3.connect("aion.db")      # abrís la conexión a la base de datos
-    cursor = conn.cursor()                  # creás un cursor, que es el que ejecuta queries
-    cursor.execute("SELECT archivo, titulo, artista, album, año, duracion FROM canciones")  # ejecutás la query
-    filas = cursor.fetchall()              # traés todos los resultados como lista de tuplas
-    conn.close()                           # cerrás la conexión
+    conn = sqlite3.connect("aion.db")      
+    cursor = conn.cursor()                 
+    cursor.execute("SELECT archivo, titulo, artista, album, año, duracion FROM canciones")  
+    filas = cursor.fetchall()              
+    conn.close()                          
     
     cancionesfiltradas = []
-    for fila in filas:                     # recorrés cada fila
-        cancionesfiltradas.append({        # convertís cada tupla a diccionario
-            "archivo": fila[0],            # fila[0] es el primer campo: archivo
-            "titulo":  fila[1],            # fila[1] es el segundo: titulo
+    for fila in filas:                   
+        cancionesfiltradas.append({        
+            "archivo": fila[0],          
+            "titulo":  fila[1],        
             "artista": fila[2],
             "album":   fila[3],
             "año":     fila[4],
