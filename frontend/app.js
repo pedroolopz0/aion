@@ -18,7 +18,7 @@ btn.onclick = function ()
 };
 
 // fetch canciones
-fetch("http://127.0.0.1:8000/musica")
+fetch(`http://${window.location.hostname}:8000/musica`)
   .then(response => response.json())
   .then(data => 
   {

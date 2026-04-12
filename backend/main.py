@@ -7,6 +7,7 @@ from mutagen.mp3 import MP3
 from mutagen.id3 import ID3
 import os
 import sqlite3
+import socket
 
 CARPETA_MUSICA = "C:/_pedroolopz"
 
@@ -64,6 +65,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/ip")
+def ip():
+    return{"ip": socket.gethostbyname(socket.gethostname())}
 
 @app.get("/actualizar")
 def actualizar():
