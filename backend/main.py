@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from mutagen.mp3 import MP3
 from mutagen.id3 import ID3
@@ -64,6 +65,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/actualizar")
+def actualizar():
+    conn = sqlite3.connect("aion.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM canciones")
+    antes = cursor.fetchone()[0]
+    conn.close()
+
+    sincronizar_db()
+
+    conn = sqlite3.connect("aion.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM canciones")
+    despues = cursor.fetchone()[0]
+    conn.close()
+
+    return {"nuevas": despues - antes}
+
+
 @app.get("/descargar/{archivo}")
 async def descargar_archivo(archivo: str):
     file_path = os.path.join(CARPETA_MUSICA, archivo)
@@ -100,3 +120,5 @@ def musica():
         })
     
     return {"lista": cancionesfiltradas}
+
+app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
