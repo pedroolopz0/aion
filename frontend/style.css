@@ -52,7 +52,7 @@ h1{
     align-items: center;
 }
 
-#btnDark, #inputMusica, #btnSincronizar{
+#btnDark, #inputMusica, #btnSincronizar, #btnActualizar{
     border: 1px solid #AAAAAA;
     border-radius: 20px;
     color: #AAAAAA;
@@ -78,6 +78,12 @@ h1{
     background-color: #021A54;
     padding: 1px 10px;
     border-radius: 20px;
+}
+
+#btnActualizarContainer {
+    position: absolute;
+    top: 75px;
+    left: 80px;
 }
 
 select, ::picker(select) {
@@ -131,7 +137,8 @@ body.dark {
     background-color: #021A54;
 }
 
-body.dark #btnDark, body.dark #inputMusica, body.dark #btnSincronizar{
+body.dark #btnDark, body.dark #inputMusica, 
+body.dark #btnSincronizar, body.dark #btnActualizar{
     background-color: #021A54;
 }
 

@@ -109,3 +109,9 @@ document.getElementById("btnSincronizar").onclick = async function() {
     }
 }
 
+document.getElementById("btnActualizar").onclick = function() {
+    fetch(`http://${window.location.hostname}:8000/actualizar`)
+        .then(response => response.json())
+        .then(data => alert(`${data.nuevas} canciones nuevas encontradas`))
+}
+
