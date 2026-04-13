@@ -107,23 +107,26 @@ async def descargar_archivo(archivo: str):
 
 @app.get("/musica")
 def musica():
-    conn = sqlite3.connect("aion.db")      
-    cursor = conn.cursor()                 
-    cursor.execute("SELECT archivo, titulo, artista, album, año, duracion FROM canciones")  
-    filas = cursor.fetchall()              
-    conn.close()                          
+    try:
+        conn = sqlite3.connect("aion.db")      
+        cursor = conn.cursor()                 
+        cursor.execute("SELECT archivo, titulo, artista, album, año, duracion FROM canciones")  
+        filas = cursor.fetchall()              
+        conn.close()                          
     
-    cancionesfiltradas = []
-    for fila in filas:                   
-        cancionesfiltradas.append({        
-            "archivo": fila[0],          
-            "titulo":  fila[1],        
-            "artista": fila[2],
-            "album":   fila[3],
-            "año":     fila[4],
-            "duracion": fila[5]
-        })
+        cancionesfiltradas = []
+        for fila in filas:                   
+            cancionesfiltradas.append({        
+                "archivo": fila[0],          
+                "titulo":  fila[1],        
+                "artista": fila[2],
+                "album":   fila[3],
+                "año":     fila[4],
+                "duracion": fila[5]
+            })
     
-    return {"lista": cancionesfiltradas}
+        return {"lista": cancionesfiltradas}
+    except Exception as e:
+        return {"error": str(e)}
 
 app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")

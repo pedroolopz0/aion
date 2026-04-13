@@ -95,11 +95,17 @@ document.getElementById("inputMusica").onchange = function(event) {
     console.log(faltantes)
 }
 
-document.getElementById("btnSincronizar").onclick = function(){
-  faltantes.forEach(cancion => {
-    const link = document.createElement("a");
-    link.href = `http://${window.location.hostname}:8000/descargar/${cancion.archivo}`;
-    link.download = cancion.archivo;
-    link.click();
-  })
+document.getElementById("btnSincronizar").onclick = async function() {
+    for (const cancion of faltantes) {
+        const respuesta = await fetch(`http://${window.location.hostname}:8000/descargar/${cancion.archivo}`);
+        const blob = await respuesta.blob();
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = cancion.archivo;
+        link.click();
+        await new Promise(resolve => setTimeout(resolve, 50));
+        document.getElementById("progreso").textContent = `Descargando ${faltantes.indexOf(cancion) + 1} de ${faltantes.length}`;
+        URL.revokeObjectURL(link.href);
+    }
 }
+

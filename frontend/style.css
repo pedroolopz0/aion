@@ -17,6 +17,7 @@ p{
 h1{
     color: #021A54;
     text-align: center;
+    margin: 8px;
 }
 
 .titulo, .artista{
@@ -68,7 +69,6 @@ h1{
     font-size: 20px;
     background-color: #F6F6F6;
     cursor: pointer;
-    
 }
 
 #numeroPagina{
@@ -111,6 +111,14 @@ select{
     border-radius: 50%;
     margin: 150px;
     animation: girar 0.8s linear infinite;
+}
+
+#progreso{
+    flex-direction: column;
+    text-align: center;
+    display: flex;
+    color: #021A54;
+    margin-bottom: 10px;
 }
 
 @keyframes girar {
