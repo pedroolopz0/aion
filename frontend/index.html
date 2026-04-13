@@ -4,21 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    
     <title>AION</title>
 </head>
 <body>
-
     <header>
+        
         <h1>AION</h1>
-        <button id="btnDark">Modo Oscuro</button>
-        <input type="file" id="inputMusica" accept=".mp3" multiple>
-        <button id="btnSincronizar">Sincronizar canciones</button>
-        <p id="progreso"></p>
+       
     </header>
 
-    <div id="btnActualizarContainer">
+    <div id="controlesSinc">
         <button id="btnActualizar">Actualizar</button>
+        <label for="inputMusica" id="labelMusica">
+        <span id="textoArchivos">Elegir archivos</span>
+        </label>
+        <input type="file" id="inputMusica" accept=".mp3" multiple>
+        <button id="btnSincronizar">Sincronizar</button>
+        <button id="btnDark">Modo Oscuro</button>
+        <p id="progreso"></p>
     </div>
 
     <select id="filtroArtista">
@@ -36,7 +39,6 @@
         </div>
     </main>
 
-
-<script src="app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
