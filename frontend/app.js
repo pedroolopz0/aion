@@ -6,6 +6,7 @@ const porPag = 28;
 let paginaAct = 0;
 let listaCompleta = [];
 let listaActual = [];
+let faltantes = [];
 
 // boton modo de visualizacion
 btn.onclick = function () 
@@ -18,7 +19,7 @@ btn.onclick = function ()
 };
 
 // fetch canciones
-fetch(`http://${window.location.hostname}:8000/musica`)
+fetch(`http://${window.location.hostname}:8000/musica`) 
   .then(response => response.json())
   .then(data => 
   {
@@ -83,3 +84,22 @@ mostrarCanciones(listaActual);
 }
 
 select.addEventListener("change", filtrar)
+
+document.getElementById("inputMusica").onchange = function(event) {
+    const archivos = []
+    for (const archivo of event.target.files) {
+        archivos.push(archivo.name)
+    }
+    console.log(archivos)
+    faltantes = listaCompleta.filter(c => !archivos.includes(c.archivo))
+    console.log(faltantes)
+}
+
+document.getElementById("btnSincronizar").onclick = function(){
+  faltantes.forEach(cancion => {
+    const link = document.createElement("a");
+    link.href = `http://${window.location.hostname}:8000/descargar/${cancion.archivo}`;
+    link.download = cancion.archivo;
+    link.click();
+  })
+}
