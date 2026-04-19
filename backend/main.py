@@ -8,7 +8,7 @@ import os
 import sqlite3
 import socket
 
-CARPETA_MUSICA = "C:/_pedroolopz"
+CARPETA_MUSICA = "/home/pedro/Música/_pedroolopz"
 
 def get_db():
     conn = sqlite3.connect("aion.db")
